@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  vitrine-front:
+    build: ./front
+    ports:
+      - "80:80"
+
+  vitrine-back:
+    build: ./back
+    ports:
+      - "3200:3200"
+    depends_on:
+      - vitrine-bdd
+
+  vitrine-bdd:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: passwordBDD
+      MYSQL_DATABASE: databaseBDD
+      MYSQL_USER: userBDD
+      MYSQL_PASSWORD: passwordBDD
+    volumes:
+      - ./bdd:/var/lib/mysql
+    # On fait un volume pour que les données de la bdd ne soient pas perdues à chaque redémarrage du container
+  
